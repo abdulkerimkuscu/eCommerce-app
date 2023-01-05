@@ -13,10 +13,10 @@ import { useFormik } from "formik";
 import validationSchema from "./validations";
 import { fetchRegister } from "../../../api";
 import { useAuth } from "../../../context/AuthContext";
-
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
-
+  const navigate = useNavigate()
   const {login} = useAuth();
   const formik = useFormik({
     initialValues: {
@@ -30,7 +30,7 @@ function Signup() {
         const registerRes = await fetchRegister({email: values.email, password: values.password});
 
         login(registerRes)
-        
+        navigate("../profile")
       } catch (e) {
         bag.setErrors({general: e.response.data.message})
       }

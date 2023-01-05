@@ -11,6 +11,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { BasketProvider } from "./context/BasketContex";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +27,9 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <ChakraProvider>
       <AuthProvider>
+        <BasketProvider>
         <App />
+        </BasketProvider>
       </AuthProvider>
     </ChakraProvider>
     <ReactQueryDevtools initialIsOpen={false} />

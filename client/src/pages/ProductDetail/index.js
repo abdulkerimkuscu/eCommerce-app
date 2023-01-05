@@ -5,10 +5,11 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { fetchProduct } from "../../api";
 import ImageGallery from "react-image-gallery";
+import { useBasket } from "../../context/BasketContex";
 
 function ProductDetail() {
   const { product_id } = useParams();
-
+  const {addToBasket , items} = useBasket();
   const { isLoading, isError, data } = useQuery(["product", product_id], () =>
     fetchProduct(product_id)
   );
@@ -20,11 +21,15 @@ function ProductDetail() {
   if (isError) {
     <div>Error</div>;
   }
-
+  const findItems = items.find ((item) => item._id === product_id)
   const images = data.photos.map((url) => ({original: url}));
   return (
     <div>
-      <Button colorScheme="green">Add To Basket</Button>
+      <Button colorScheme={findItems? "red": "green"} onClick={()=> addToBasket(data, findItems)}>
+        {
+          findItems ? "Remove from Basket" : "Add To Basket"
+        }
+      </Button>
 
       <Text as="h2" fontSize="2xl">
         {data.title}
